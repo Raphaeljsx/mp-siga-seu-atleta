@@ -1,10 +1,21 @@
-import db from '@/prisma/db';
+
+import AthletesList from './_components/athletesList';
+import { Suspense } from 'react';
+import { findAthletes } from '@/lib/athlete';
 
 export default async function Home() {
-  const sports = await db.sport.findMany();
+  // const sports = await findSports();
+  const athletesData = await findAthletes();
+  const athlestes = athletesData.map(athlete => ({
+    ...athlete,
+    sport: athlete.Sport
+  }));
+
   return (
-    <div>
-      {sports.map((sport) => (<div key={sport.id}>{sport.name}</div>))}
-    </div>
+    <main className="p-4 flex flex-col gap-12">
+      <Suspense key={""} fallback={<div>Carregando...</div>}>
+        <AthletesList initialData={athlestes} />
+      </Suspense>
+    </main>
   );
 }

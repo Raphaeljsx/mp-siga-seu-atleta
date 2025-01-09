@@ -35,5 +35,5 @@ model Athlete {
   instagramFollowing  Int?
   InstagramPostsCount Int?
   instagramBio        String?
-  updatedAt           DateTime
+  updatedAt           DateTime @default(now())
 }
